@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
+import it.luca.jeez.christ.springbootfirsttodoapp.service.TodoService;
 
 /**
  * Mappiamo localhost:8080/login alla classe
@@ -31,25 +32,18 @@ import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
 
 //per jsp, @Controller altrimenti @RestController + cartella main/WEN-INF/jsp
 @Controller
-public class LoginController {
+public class TodoController {
 	
 	@Autowired
-	LoginService service;
+	TodoService service;
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value="/list-todos", method=RequestMethod.GET)
 	public String showLoginPage(ModelMap model) {
-		return "login";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
+		model.put("todos", service.retrieveTodos("in28Minutes"));
+		return "list-todos";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
+		
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String showWelcomePage(@RequestParam String name,@RequestParam String pwd, ModelMap model) { //accettiamo param con la richiesta con @RequestParam
-		boolean isValidUser = service.validateUser(name, pwd);
-		if(!isValidUser)
-			return "login";
-		
-		model.put("name", name);
-		model.put("pwd", pwd);
-		return "welcome";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
-	}
+	
 
 }
