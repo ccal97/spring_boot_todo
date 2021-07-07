@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
 
@@ -31,6 +32,7 @@ import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
 
 //per jsp, @Controller altrimenti @RestController + cartella main/WEN-INF/jsp
 @Controller
+@SessionAttributes("name")
 public class LoginController {
 	
 	@Autowired
