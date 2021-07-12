@@ -18,7 +18,8 @@ public class TodoService {
         todos.add(new Todo(1, "in28Minutes", "Learn Spring MVC", new Date(),
                 false));
         todos.add(new Todo(2, "in28Minutes", "Learn Struts", new Date(), false));
-        todos.add(new Todo(3, "in28Minutes", "Learn Hibernate", new Date(),
+        todos.add(new Todo(3, "luca", "Learn Spring Boot", new Date(), false));
+        todos.add(new Todo(4, "in28Minutes", "Learn Hibernate", new Date(),
                 false));
     }
 
@@ -30,6 +31,22 @@ public class TodoService {
             }
         }
         return filteredTodos;
+    }
+    
+    public Todo retrieveTodo(int id) {
+        List<Todo> filteredTodos = new ArrayList<Todo>();
+        for (Todo todo : todos) {
+            if (todo.getId()==id) {
+                return todo;
+            }
+        }
+        return null;
+    }
+    
+    public void updateTodo(Todo todo) {
+    	System.out.println(todo.getId());
+    	todos.remove(todo);
+    	todos.add(todo);
     }
 
     public void addTodo(String name, String desc, Date targetDate,
