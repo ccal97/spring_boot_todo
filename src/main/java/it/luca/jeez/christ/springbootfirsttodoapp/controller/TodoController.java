@@ -42,46 +42,53 @@ public class TodoController {
 	@Autowired
 	TodoService service;
 	
-	@RequestMapping(value="/list-todos", method=RequestMethod.GET)
-	public String showLoginPage(ModelMap model) {
-		String loggedUsr = (String) model.get("name");
-		model.put("todos", service.retrieveTodos(loggedUsr));
-		return "list-todos";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
-		
+	@RequestMapping(value = "/list-todos", method = RequestMethod.GET)
+	public String showTodos(ModelMap model) {
+		String name = getLoggedInUserName(model);
+		model.put("todos", service.retrieveTodos(name));
+		return "list-todos";
 	}
-	
-	@RequestMapping(value="/add-todo", method=RequestMethod.GET)
-	public String showAddTodo(ModelMap model) {
-		model.addAttribute("todo",new Todo(0,(String) model.get("name"),"default description",new Date(), false));
+
+	private String getLoggedInUserName(ModelMap model) {
+		return (String) model.get("name");
+	}
+
+	@RequestMapping(value = "/add-todo", method = RequestMethod.GET)
+	public String showAddTodoPage(ModelMap model) {
+		model.addAttribute("todo", new Todo(0, getLoggedInUserName(model),
+				"Default Desc", new Date(), false));
 		return "todo";
-		
 	}
-	
-	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
-	public String addTodo(ModelMap model, Todo todo) { //COMMAND BEAN = double binding : mappare direttamente i campi del form all'oggetto che creiamo. Controller + View Spring tags
-		String loggedUsr = (String) model.get("name");
-		service.addTodo(loggedUsr, todo.getDesc(), new Date(), false);
-		return "redirect:/list-todos"; //se invece ritorniamo solo la jsp, model.todo non viene po'polato. quindi reindirizziamo al metodo sopra
-		
-	}
-	
-	@RequestMapping(value="/delete-todo", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/delete-todo", method = RequestMethod.GET)
 	public String deleteTodo(@RequestParam int id) {
 		service.deleteTodo(id);
 		return "redirect:/list-todos";
 	}
-	
-	@RequestMapping(value="/update-todo", method=RequestMethod.GET)
-	public String showUpdateTodo(@RequestParam int id, ModelMap model) {
+
+	@RequestMapping(value = "/update-todo", method = RequestMethod.GET)
+	public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
 		Todo todo = service.retrieveTodo(id);
-		model.put("todo",todo);
+		model.put("todo", todo);
 		return "todo";
 	}
-	
-	@RequestMapping(value="/update-todo", method=RequestMethod.POST)
-	public String updateTodo(Todo todo, ModelMap model) {
-		todo.setUser((String) model.get("name"));
+
+	@RequestMapping(value = "/update-todo", method = RequestMethod.POST)
+	public String updateTodo(ModelMap model, Todo todo) {
+
+		todo.setUser(getLoggedInUserName(model));
+
 		service.updateTodo(todo);
+
+		return "redirect:/list-todos";
+	}
+
+	@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
+	public String addTodo(ModelMap model, Todo todo) {
+
+		service.addTodo(getLoggedInUserName(model), todo.getDesc(), todo.getTargetDate(),
+				false);
 		return "redirect:/list-todos";
 	}
 }
+

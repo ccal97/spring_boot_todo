@@ -37,21 +37,11 @@ public class LoginController {
 	
 	@Autowired
 	LoginService service;
-	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showLoginPage(ModelMap model) {
-		return "login";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
-	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String showWelcomePage(@RequestParam String name,@RequestParam String pwd, ModelMap model) { //accettiamo param con la richiesta con @RequestParam
-		boolean isValidUser = service.validateUser(name, pwd);
-		if(!isValidUser)
-			return "login";
-		
-		model.put("name", name);
-		model.put("pwd", pwd);
-		return "welcome";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
+		model.put("name", "porca");
+		return "welcome";
 	}
 
 }
