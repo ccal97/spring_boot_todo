@@ -34,7 +34,11 @@ public class TodoService {
     }
     
     public Todo retrieveTodo(int id) {
+<<<<<<< HEAD
         //List<Todo> filteredTodos = new ArrayList<Todo>();
+=======
+        List<Todo> filteredTodos = new ArrayList<Todo>();
+>>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
         for (Todo todo : todos) {
             if (todo.getId()==id) {
                 return todo;

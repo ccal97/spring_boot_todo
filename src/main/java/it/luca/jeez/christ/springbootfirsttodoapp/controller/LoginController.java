@@ -6,7 +6,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+<<<<<<< HEAD
 
+=======
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+>>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
@@ -35,21 +40,11 @@ public class LoginController {
 	
 	@Autowired
 	LoginService service;
-	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showLoginPage(ModelMap model) {
-		return "login";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
-	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String showWelcomePage(@RequestParam String name,@RequestParam String pwd, ModelMap model) { //accettiamo param con la richiesta con @RequestParam
-		boolean isValidUser = service.validateUser(name, pwd);
-		if(!isValidUser)
-			return "login";
-		
-		model.put("name", name);
-		model.put("pwd", pwd);
-		return "welcome";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
+		model.put("name", "porca");
+		return "welcome";
 	}
 
 }

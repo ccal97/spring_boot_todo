@@ -51,10 +51,21 @@
             <version>1.9.1</version>
         </dependency>
         
+<<<<<<< HEAD
 
 		<dependency>
     		<groupId>javax.servlet</groupId>
     		<artifactId>jstl</artifactId>
+=======
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+>>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
 		</dependency>
 	</dependencies>
 
