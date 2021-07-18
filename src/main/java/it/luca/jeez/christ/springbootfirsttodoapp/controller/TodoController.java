@@ -3,25 +3,23 @@ package it.luca.jeez.christ.springbootfirsttodoapp.controller;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-<<<<<<< HEAD
-=======
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
->>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
+
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.luca.jeez.christ.springbootfirsttodoapp.model.Todo;
-<<<<<<< HEAD
-
-=======
-import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
->>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
 import it.luca.jeez.christ.springbootfirsttodoapp.service.TodoService;
+
 
 /**
  * Mappiamo localhost:8080/login alla classe
@@ -48,59 +46,29 @@ public class TodoController {
 	@Autowired
 	TodoService service;
 	
-<<<<<<< HEAD
-	@RequestMapping(value="/list-todos", method=RequestMethod.GET)
-	public String showLoginPage(ModelMap model) {
-		String loggedUsr = (String) model.get("name");
-		model.put("todos", service.retrieveTodos(loggedUsr));
-		return "list-todos";	//ritorniamo la view login.jsp. bisogna configurare in app.properties prefix e suffix
-		
-=======
 	@RequestMapping(value = "/list-todos", method = RequestMethod.GET)
 	public String showTodos(ModelMap model) {
 		String name = getLoggedInUserName(model);
 		model.put("todos", service.retrieveTodos(name));
 		return "list-todos";
->>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
 	}
-<<<<<<< HEAD
-	
-	@RequestMapping(value="/add-todo", method=RequestMethod.GET)
-	public String showAddTodo(ModelMap model) {
-		model.addAttribute("todo",new Todo(0,(String) model.get("name"),"default description",new Date(), false));
-		return "todo";
-		
-	}
-	
-	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
-	public String addTodo(ModelMap model, Todo todo) { //COMMAND BEAN = double binding : mappare direttamente i campi del form all'oggetto che creiamo. Controller + View Spring tags
-		String loggedUsr = (String) model.get("name");
-		service.addTodo(loggedUsr, todo.getDesc(), new Date(), false);
-		return "redirect:/list-todos"; //se invece ritorniamo solo la jsp, model.todo non viene po'polato. quindi reindirizziamo al metodo sopra
-		
-	}
-	
-	@RequestMapping(value="/delete-todo", method=RequestMethod.GET)
-	public String deleteTodo(@RequestParam int id) {
-		service.deleteTodo(id);
-		return "redirect:/list-todos";
-	}
-	
-	@RequestMapping(value="/update-todo", method=RequestMethod.GET)
-	public String showUpdateTodo(@RequestParam int id, ModelMap model) {
-		Todo todo = service.retrieveTodo(id);
-		model.put("todo",todo);
-		return "todo";
-	}
-	
-	@RequestMapping(value="/update-todo", method=RequestMethod.POST)
-	public String updateTodo(Todo todo, ModelMap model) {
-		todo.setUser((String) model.get("name"));
-		service.updateTodo(todo);
-=======
 
+	
+//	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
+//	public String addTodo(ModelMap model, Todo todo) { //COMMAND BEAN = double binding : mappare direttamente i campi del form all'oggetto che creiamo. Controller + View Spring tags
+//		String loggedUsr = (String) model.get("name");
+//		service.addTodo(loggedUsr, todo.getDesc(), new Date(), false);
+//		return "redirect:/list-todos"; //se invece ritorniamo solo la jsp, model.todo non viene po'polato. quindi reindirizziamo al metodo sopra
+//		
+//	}
+
+	
 	private String getLoggedInUserName(ModelMap model) {
-		return (String) model.get("name");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUserName = authentication.getName();
+		    return currentUserName;
+		} else return authentication.toString();
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.GET)
@@ -127,18 +95,17 @@ public class TodoController {
 	public String updateTodo(ModelMap model, Todo todo) {
 
 		todo.setUser(getLoggedInUserName(model));
-
+		todo.setTargetDate(new Date());
 		service.updateTodo(todo);
 
 		return "redirect:/list-todos";
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
-	public String addTodo(ModelMap model, Todo todo) {
+	public String getListofTodos(ModelMap model, Todo todo) {
 
 		service.addTodo(getLoggedInUserName(model), todo.getDesc(), todo.getTargetDate(),
 				false);
->>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
 		return "redirect:/list-todos";
 	}
 }

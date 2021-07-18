@@ -19,7 +19,7 @@ public class Todo {
         this.id = id;
         this.user = user;
         this.desc = desc;
-        this.targetDate = targetDate;
+        this.targetDate = new Date();
         this.isDone = isDone;
     }
 

@@ -12,12 +12,12 @@ import it.luca.jeez.christ.springbootfirsttodoapp.model.Todo;
 @Service
 public class TodoService {
     private static List<Todo> todos = new ArrayList<Todo>();
-    private static int todoCount = 3;
+    private static int todoCount = 4;
 
     static {
         todos.add(new Todo(1, "in28Minutes", "Learn Spring MVC", new Date(),
                 false));
-        todos.add(new Todo(2, "in28Minutes", "Learn Struts", new Date(), false));
+        todos.add(new Todo(2, "porca", "Learn Struts", new Date(), false));
         todos.add(new Todo(3, "luca", "Learn Spring Boot", new Date(), false));
         todos.add(new Todo(4, "in28Minutes", "Learn Hibernate", new Date(),
                 false));
@@ -34,11 +34,8 @@ public class TodoService {
     }
     
     public Todo retrieveTodo(int id) {
-<<<<<<< HEAD
         //List<Todo> filteredTodos = new ArrayList<Todo>();
-=======
-        List<Todo> filteredTodos = new ArrayList<Todo>();
->>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
+
         for (Todo todo : todos) {
             if (todo.getId()==id) {
                 return todo;
@@ -48,7 +45,7 @@ public class TodoService {
     }
     
     public void updateTodo(Todo todo) {
-    	System.out.println(todo.getId());
+    	System.out.println("ID updating todo"+todo.getId());
     	todos.remove(todo);
     	todos.add(todo);
     }

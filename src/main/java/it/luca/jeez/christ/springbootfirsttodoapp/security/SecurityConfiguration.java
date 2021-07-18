@@ -19,6 +19,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.roles("USER", "ADMIN");
 	}
 
+	/*
+	 * utilizziamo la pagina di default di Spring Security
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/login").permitAll()

@@ -1,20 +1,21 @@
 package it.luca.jeez.christ.springbootfirsttodoapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-<<<<<<< HEAD
 
-=======
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> branch 'master' of https://github.com/ccal97/spring_boot_todo.git
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
 
 /**
  * Mappiamo localhost:8080/login alla classe
@@ -35,16 +36,27 @@ import it.luca.jeez.christ.springbootfirsttodoapp.service.LoginService;
 
 //per jsp, @Controller altrimenti @RestController + cartella main/WEN-INF/jsp
 @Controller
-@SessionAttributes("name")
-public class LoginController {
+//@SessionAttributes("name")
+public class WelcomeController {
 	
-	@Autowired
-	LoginService service;
-
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showLoginPage(ModelMap model) {
-		model.put("name", "porca");
+	public String showWelcomePage(ModelMap model) {
+		model.put("name", getLoggedInUserName());
 		return "welcome";
 	}
+	
+	private String getLoggedInUserName() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUserName = authentication.getName();
+		    return currentUserName;
+		} else return authentication.toString();
+	}
+//	private String getLoggedInUserName() {
+//		Object principal = SecurityContextHolder.getContext().getAuthentication();
+//		if(principal instanceof User) {
+//			return ((User) principal).getUsername();
+//		} else return principal.toString();
+//	}
 
 }
